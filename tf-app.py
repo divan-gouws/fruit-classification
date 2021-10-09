@@ -1,7 +1,7 @@
 import streamlit as st
 import tensorflow as tf
 from tensorflow import keras
-from Pillow import Image, ImageOps
+from PIL import Image, ImageOps
 import numpy as np
 import pickle
 
@@ -27,9 +27,9 @@ uploaded_file = st.sidebar.file_uploader("Choose an image...", type=["jpg"])
 
 if uploaded_file is not None:
     label = None
-    image = Image.open(uploaded_file)
-    st.image(image, caption='Uploaded Image.', use_column_width=True)
-    st.write("")
+    image = Image.open(uploaded_file)   
     label, perc = teachable_machine_classification(image, 'fruit_94-97.hdf5')
     label_index = np.argmax(label, axis=None, out=None)
     st.write("The uploaded fruit is a(n) {} with {:%} confidence.".format(labels[label_index], perc[0, label_index]))
+    st.write("")
+    st.image(image, caption='Uploaded Image.', use_column_width=True)
